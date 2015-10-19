@@ -16,6 +16,5 @@ private:
 	std::vector<Orb*> mOrbs;
 	double mG;
 	double mDeltaTime;
-
 };
 #endif

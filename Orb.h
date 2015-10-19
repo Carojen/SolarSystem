@@ -5,7 +5,7 @@
 class Orb
 {
 public:
-	Orb(MyVector position, double mass, double velocity = 0, Color color=Color(GRAY));
+	Orb( MyVector position, double mass, const double deltaTime, Color color = Color( GRAY ), MyVector velocity = MyVector( ) );
 	void update(double deltaTime);
 	void draw(DemoHandler* draw);
 	void addForce( MyVector force );
@@ -19,6 +19,7 @@ private:
 	MyVector mForce;
 	double mMass;
 	double mInvMass;
+	double mSize;
 	Color mColor;
 };
 #endif
