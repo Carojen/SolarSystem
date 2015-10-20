@@ -47,11 +47,12 @@ void SolarSystem::update( DemoHandler* dh )
 
 	if( !mPaused )
 	{
+		int limit = mOrbs.size();
 		for( int j = 0; j < 365*24*30; j++ )
 		{
-			for( unsigned int i = 0; i < mOrbs.size( ) - 1; i++ )
+			for( unsigned int i = 0; i < limit - 1; i++ )
 			{
-				for( unsigned int k = i + 1; k < mOrbs.size( ); k++ )
+				for( unsigned int k = i + 1; k < limit; k++ )
 				{
 					addForce( mOrbs[i], mOrbs[k] );											
 				}								
