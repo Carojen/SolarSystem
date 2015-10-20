@@ -18,5 +18,6 @@ public:
 	double mG;
 	double mDeltaTime;
 	bool mPaused;
+	bool mDebug;
 };
 #endif

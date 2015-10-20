@@ -14,7 +14,7 @@ public:
 		Orb* primary = nullptr );
 
 	void update(double deltaTime);
-	void draw(DemoHandler* draw);
+	void draw(DemoHandler* draw, bool debug=false);
 	void addForce( MyVector force );
 	MyVector getPosition();
 	double getMass();
@@ -34,5 +34,6 @@ private:
 	double mModScale;
 	bool mIsActive;
 	char mKey;
+	MyVector mDebug;
 };
 #endif
