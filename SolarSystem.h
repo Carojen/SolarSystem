@@ -12,9 +12,11 @@ public:
 	void update( DemoHandler* dh );
 	void draw( DemoHandler* draw );
 	void addForce( Orb* one, Orb* two );
-private:
+//private:
+	void calc();
 	std::vector<Orb*> mOrbs;
 	double mG;
 	double mDeltaTime;
+	bool mPaused;
 };
 #endif

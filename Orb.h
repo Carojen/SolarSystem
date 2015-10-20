@@ -5,13 +5,21 @@
 class Orb
 {
 public:
-	Orb( MyVector position, double mass, const double deltaTime, Color color = Color( GRAY ), MyVector velocity = MyVector( ) );
+	Orb( MyVector position, 
+		double mass, 
+		const double deltaTime, 
+		Color color = Color( GRAY ), 
+		char key = 'a',
+		MyVector velocity = MyVector( ),		
+		Orb* primary = nullptr );
+
 	void update(double deltaTime);
 	void draw(DemoHandler* draw);
 	void addForce( MyVector force );
 	MyVector getPosition();
 	double getMass();
 	double getInvMass();
+	bool isActive();
 	~Orb();
 private:
 	MyVector mCurrentPosition;
@@ -21,5 +29,10 @@ private:
 	double mInvMass;
 	double mSize;
 	Color mColor;
+	double mDt;
+	Orb* mPrimary;
+	double mModScale;
+	bool mIsActive;
+	char mKey;
 };
 #endif
