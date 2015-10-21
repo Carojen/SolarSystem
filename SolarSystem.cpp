@@ -7,6 +7,7 @@ SolarSystem::SolarSystem()
 	mDeltaTime = 1.0/30.0;
 	mPaused = true;
 	mDebug = false;
+	mNrOfLoops = 1;
 
 	//SUN
 	mOrbs.push_back( new Orb( MyVector( 0, 0, 0 ), 1.98855 * pow(10,30), mDeltaTime,Color( YELLOW ), '0'));
@@ -45,10 +46,42 @@ void SolarSystem::update( DemoHandler* dh )
 		mDebug = !mDebug;
 	}
 
+	if (dh->keyTyped('+'))
+	{
+		if (mNrOfLoops == 1)
+		{
+			mNrOfLoops = 356;
+		}
+		else if (mNrOfLoops < 356*24)
+		{
+			mNrOfLoops = 356 * 24;
+		}
+		else if (mNrOfLoops < 356 * 24*30)
+		{
+			mNrOfLoops = 356 * 24 * 30;
+		}
+	}
+
+	if (dh->keyTyped('-'))
+	{
+		if (mNrOfLoops < 356 + 1)
+		{
+			mNrOfLoops = 1;
+		}
+		else if (mNrOfLoops < 356 * 24 + 1)
+		{
+			mNrOfLoops = 356;
+		}
+		else if (mNrOfLoops < 356 * 24 * 30 + 1)
+		{
+			mNrOfLoops = 356 * 24;
+		}
+	}
+
 	if( !mPaused )
 	{
 		int limit = mOrbs.size();
-		for( int j = 0; j < 365*24*30; j++ )
+		for( unsigned int j = 0; j < mNrOfLoops; j++ )
 		{
 			for( unsigned int i = 0; i < limit - 1; i++ )
 			{

@@ -5,7 +5,7 @@ Orb::Orb( MyVector position, double mass, const double deltaTime, Color color, c
 {
 	mInvMass = 1.0 / mMass;
 
-	mForce = MyVector( );
+	mForce = MyVector();
 	mDt = deltaTime;
 	mIsActive = true;
 
@@ -28,15 +28,26 @@ Orb::Orb( MyVector position, double mass, const double deltaTime, Color color, c
 	}
 
 	mModScale = 1;
+	MyVector pos = mCurrentPosition;
+
 	if( mPrimary != nullptr )
 	{
 		mModScale = pow(10,log10( mPrimary->getPosition().length()) - log10(( mPrimary->getPosition() - mCurrentPosition ).length())-1);
+
+		pos = (mPrimary->getPosition() - mCurrentPosition)
+			* mModScale
+			+ mPrimary->getPosition();
+	}
+	if (mCurrentPosition.length() > 1)
+	{
+		mDistScale = 14 - log10(pos.length());
+		mDistScale = mDistScale * mDistScale * pow(10, -11)* 0.5;
 	}
 }
 
 void Orb::update( double dt )
 {
-	if( mIsActive )
+	if( mIsActive && (mPrimary == nullptr || mPrimary->isActive() ))
 	{
 		MyVector newPosition = mCurrentPosition * 2 - mPreviousPosition + mForce * mInvMass * dt *dt;
 		mPreviousPosition = mCurrentPosition;
@@ -65,24 +76,26 @@ void Orb::draw( DemoHandler* draw, bool debug )
 
 	if( mCurrentPosition.length( ) > 1 )
 	{
-		double scale = 14 - log10( pos.length() );
 		position = pos
-			* pow( 10, -11 )
-			* 0.5 * scale * scale; 
+			* mDistScale;
 	}	
 		
 	if( mIsActive )
-	{
-		mDebug.normalize( );
+	{		
+		if (position.length() > 1000)
+		{
+			mIsActive = false;
+		}
 		draw->drawPoint( position.toPoint(), mColor, mSize );	
 		if( debug )
 		{
+			mDebug.normalize();
 			draw->drawLine( position.toPoint( ), ( position + mDebug *(1+mSize)).toPoint( ), Color( mColor ), 0.01 );
 		}
 	}
 	else
 	{
-		draw->drawPoint( position.toPoint( ), Color(GRAY), mSize );draw->drawLine( position.toPoint( ), ( position + mDebug * ( 1 + mSize ) ).toPoint( ), Color( GRAY ), 0.01 );
+		draw->drawPoint( position.toPoint( ), Color(GRAY), mSize );
 	}	
 }
 

@@ -19,5 +19,6 @@ public:
 	double mDeltaTime;
 	bool mPaused;
 	bool mDebug;
+	int mNrOfLoops;
 };
 #endif

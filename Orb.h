@@ -32,6 +32,7 @@ private:
 	double mDt;
 	Orb* mPrimary;
 	double mModScale;
+	double mDistScale;
 	bool mIsActive;
 	char mKey;
 	MyVector mDebug;
