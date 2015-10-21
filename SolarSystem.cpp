@@ -4,7 +4,7 @@
 SolarSystem::SolarSystem()
 {
 	mG = 6.6743 * pow( 10, -11 );
-	mDeltaTime = 1.0/30.0;
+	mDeltaTime = 1.0;
 	mPaused = true;
 	mDebug = false;
 	mNrOfLoops = 1;
@@ -48,33 +48,17 @@ void SolarSystem::update( DemoHandler* dh )
 
 	if (dh->keyTyped('+'))
 	{
-		if (mNrOfLoops == 1)
+		if (mNrOfLoops < 1000000)
 		{
-			mNrOfLoops = 356;
-		}
-		else if (mNrOfLoops < 356*24)
-		{
-			mNrOfLoops = 356 * 24;
-		}
-		else if (mNrOfLoops < 356 * 24*30)
-		{
-			mNrOfLoops = 356 * 24 * 30;
+			mNrOfLoops = (int) (mNrOfLoops * 10);
 		}
 	}
 
 	if (dh->keyTyped('-'))
 	{
-		if (mNrOfLoops < 356 + 1)
+		if (mNrOfLoops > 1)
 		{
-			mNrOfLoops = 1;
-		}
-		else if (mNrOfLoops < 356 * 24 + 1)
-		{
-			mNrOfLoops = 356;
-		}
-		else if (mNrOfLoops < 356 * 24 * 30 + 1)
-		{
-			mNrOfLoops = 356 * 24;
+			mNrOfLoops = (int) (mNrOfLoops / 10);
 		}
 	}
 
@@ -114,11 +98,11 @@ void SolarSystem::addForce( Orb* one, Orb* two )
 	if( one->isActive() && two->isActive() )
 	{
 		MyVector r = one->getPosition() - two->getPosition();
-		if( r.length() > 1000 )
+		double l = r.length();
+		if( l > 1000 )
 		{
 			double force = mG* one->getMass() * two->getMass()
-				/ ( r.length()
-				* r.length() );
+				/ ( l * l );
 
 			r.normalize();
 

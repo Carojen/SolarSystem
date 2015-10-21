@@ -1,7 +1,7 @@
 #include "Orb.h"
 
-Orb::Orb( MyVector position, double mass, const double deltaTime, Color color, char key, MyVector velocity, Orb* primary )
-: mCurrentPosition( position ), mPreviousPosition( position ), mMass( mass ), mColor( color ), mKey(key), mPrimary( primary )
+Orb::Orb(MyVector position, double mass, const double deltaTime, Color color, char key, MyVector velocity, Orb* primary)
+: mCurrentPosition(position), mPreviousPosition(position), mMass(mass), mColor(color), mKey(key), mPrimary(primary)
 {
 	mInvMass = 1.0 / mMass;
 
@@ -9,57 +9,46 @@ Orb::Orb( MyVector position, double mass, const double deltaTime, Color color, c
 	mDt = deltaTime;
 	mIsActive = true;
 
-	double scale =  pow(log10( mMass ) - 21, 4) * 0.001; // The moon and Pluto are of size order 22
-	double significand = mMass * pow(10, - log10( mMass ));	
+	double scale = pow(log10(mMass) - 21, 4) * 0.001; // The moon and Pluto are of size order 22
+	double significand = mMass * pow(10, -log10(mMass));
 	mSize = significand * scale;
 
-	if( mSize < 0.02 )
+	if (mSize < 0.02)
 	{
 		mSize = 0.02;
 	}
-	if( mSize > 2.5 )
+	if (mSize > 2.5)
 	{
 		mSize = 2.5;
 	}
-	
-	if( velocity.length() != 0 )
+
+	if (velocity.length() != 0)
 	{
 		mPreviousPosition = mCurrentPosition - velocity  * mDt;
 	}
 
 	mModScale = 1;
-	MyVector pos = mCurrentPosition;
-
-	if( mPrimary != nullptr )
+	if (mPrimary != nullptr)
 	{
-		mModScale = pow(10,log10( mPrimary->getPosition().length()) - log10(( mPrimary->getPosition() - mCurrentPosition ).length())-1);
-
-		pos = (mPrimary->getPosition() - mCurrentPosition)
-			* mModScale
-			+ mPrimary->getPosition();
-	}
-	if (mCurrentPosition.length() > 1)
-	{
-		mDistScale = 14 - log10(pos.length());
-		mDistScale = mDistScale * mDistScale * pow(10, -11)* 0.5;
+		mModScale = pow(10, log10(mPrimary->getPosition().length()) - log10((mPrimary->getPosition() - mCurrentPosition).length()) - 1);
 	}
 }
 
-void Orb::update( double dt )
+void Orb::update(double dt)
 {
-	if( mIsActive && (mPrimary == nullptr || mPrimary->isActive() ))
+	if (mIsActive)
 	{
 		MyVector newPosition = mCurrentPosition * 2 - mPreviousPosition + mForce * mInvMass * dt *dt;
 		mPreviousPosition = mCurrentPosition;
-		mCurrentPosition = newPosition;		
-	}	
+		mCurrentPosition = newPosition;
+	}
 	mDebug = mForce;
 	mForce = MyVector();
 }
 
-void Orb::draw( DemoHandler* draw, bool debug )
+void Orb::draw(DemoHandler* draw, bool debug)
 {
-	if( draw->keyTyped( mKey ) )
+	if (draw->keyTyped(mKey))
 	{
 		mIsActive = !mIsActive;
 	}
@@ -67,40 +56,38 @@ void Orb::draw( DemoHandler* draw, bool debug )
 	MyVector position = MyVector();
 	MyVector pos = mCurrentPosition;
 
-	if( mPrimary != nullptr )
+	if (mPrimary != nullptr)
 	{
-		pos = ( mPrimary->getPosition() - mCurrentPosition )
+		pos = (mPrimary->getPosition() - mCurrentPosition)
 			* mModScale
 			+ mPrimary->getPosition();
 	}
 
-	if( mCurrentPosition.length( ) > 1 )
+	if (mCurrentPosition.length() > 1)
 	{
+		double scale = 14 - log10(pos.length());
 		position = pos
-			* mDistScale;
-	}	
-		
-	if( mIsActive )
-	{		
-		if (position.length() > 1000)
+			* pow(10, -11)
+			* 0.5 * scale * scale;
+	}
+
+	if (mIsActive)
+	{
+		mDebug.normalize();
+		draw->drawPoint(position.toPoint(), mColor, mSize);
+		if (debug)
 		{
-			mIsActive = false;
-		}
-		draw->drawPoint( position.toPoint(), mColor, mSize );	
-		if( debug )
-		{
-			mDebug.normalize();
-			draw->drawLine( position.toPoint( ), ( position + mDebug *(1+mSize)).toPoint( ), Color( mColor ), 0.01 );
+			draw->drawLine(position.toPoint(), (position + mDebug *(1 + mSize)).toPoint(), Color(mColor), 0.01);
 		}
 	}
 	else
 	{
-		draw->drawPoint( position.toPoint( ), Color(GRAY), mSize );
-	}	
+		draw->drawPoint(position.toPoint(), Color(GRAY), mSize); draw->drawLine(position.toPoint(), (position + mDebug * (1 + mSize)).toPoint(), Color(GRAY), 0.01);
+	}
 }
 
 
-void Orb::addForce( MyVector force )
+void Orb::addForce(MyVector force)
 {
 	mForce += force;
 }
@@ -110,12 +97,12 @@ MyVector Orb::getPosition()
 	return mCurrentPosition;
 }
 
-double Orb::getMass( )
+double Orb::getMass()
 {
 	return mMass;
 }
 
-double Orb::getInvMass( )
+double Orb::getInvMass()
 {
 	return mInvMass;
 }
