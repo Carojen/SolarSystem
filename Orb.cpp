@@ -9,9 +9,10 @@ Orb::Orb(MyVector position, double mass, const double deltaTime, Color color, ch
 	mDt = deltaTime;
 	mIsActive = true;
 
-	double scale = pow(log10(mMass) - 21, 4) * 0.001; // The moon and Pluto are of size order 22
-	double significand = mMass * pow(10, -log10(mMass));
-	mSize = significand * scale;
+	//double scale 
+	mSize = pow(log10(mMass) - 21, 4) * 0.001; // The moon and Pluto are of size order 22
+	//double significand = mMass * pow(10, -log10(mMass));
+	//mSize =  scale;
 
 	if (mSize < 0.02)
 	{
@@ -77,7 +78,11 @@ void Orb::draw(DemoHandler* draw, bool debug)
 		draw->drawPoint(position.toPoint(), mColor, mSize);
 		if (debug)
 		{
-			draw->drawLine(position.toPoint(), (position + mDebug *(1 + mSize)).toPoint(), Color(mColor), 0.01);
+			MyVector velocity = mCurrentPosition - mPreviousPosition;
+			velocity.normalize();
+
+			draw->drawLine(position.toPoint(), (position + mDebug * (1 + mSize )).toPoint(), Color(RED), 0.03);
+			draw->drawLine( position.toPoint( ), ( position - velocity *( 1 + mSize ) ).toPoint( ), Color( BLUE ), 0.03 );
 		}
 	}
 	else
