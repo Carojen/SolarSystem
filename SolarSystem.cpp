@@ -20,7 +20,7 @@ SolarSystem::SolarSystem()
 	Orb* earth = new Orb(MyVector(1.496 * pow(10, 11), 0, 0), 5.976 * pow(10, 24), mDeltaTime, "Tellus", Color(BLUE), '3', true, MyVector(0, 0, 29800),false, sun);
 	mOrbs.push_back(earth); //v = 29800
 	//Moon
-	mOrbs.push_back(new Orb(MyVector(1.496 * pow(10, 11) + 3.78 * pow(10, 5), 0, 0), 7.342 * pow(10, 22), mDeltaTime, "Moon", Color(MAGENTA), 'm',true, MyVector(0, 0, 1022),true, earth)); //v=1022
+	mOrbs.push_back(new Orb(MyVector(1.496 * pow(10, 11) + 3.84 * pow(10, 8), 0, 0), 7.342 * pow(10, 22), mDeltaTime, "Moon", Color(MAGENTA), 'm',true, MyVector(0, 0, 29800 + 1022),true, earth)); //v=1022
 
 	//MARS
 	mOrbs.push_back(new Orb(MyVector(2.279*pow(10, 11), 0, 0), 6.42*pow(10, 23), mDeltaTime, "Mars", Color(RED), '4', true, MyVector(0, 0, 24100),false, sun));
@@ -44,19 +44,20 @@ void SolarSystem::reset()
 	mNrOfLoops = 1;
 
 	//SUN
-	mOrbs.push_back(new Orb(MyVector(0, 0, 0), 1.98855 * pow(10, 30), mDeltaTime, "Sun", Color(YELLOW), '0', true));
+	Orb* sun = new Orb(MyVector(0, 0, 0), 1.98855 * pow(10, 30), mDeltaTime, "Sun", Color(YELLOW), '0', true);
+	mOrbs.push_back(sun);
 	//MERCURY
-	mOrbs.push_back(new Orb(MyVector(5.79 * pow(10, 10), 0, 0), 3.3011 * pow(10, 23), mDeltaTime, "Mercury", Color(PINK), '1', true, MyVector(0, 0, 47400)));
+	mOrbs.push_back(new Orb(MyVector(5.79 * pow(10, 10), 0, 0), 3.3011 * pow(10, 23), mDeltaTime, "Mercury", Color(PINK), '1', true, MyVector(0, 0, 47400), false, sun));
 	//VENUS
-	mOrbs.push_back(new Orb(MyVector(1.082* pow(10, 11), 0, 0), 4.87 * pow(10, 24), mDeltaTime, "Venus", Color(YELLOW), '2', true, MyVector(0, 0, 35000)));
+	mOrbs.push_back(new Orb(MyVector(1.082* pow(10, 11), 0, 0), 4.87 * pow(10, 24), mDeltaTime, "Venus", Color(YELLOW), '2', true, MyVector(0, 0, 35000), false, sun));
 	//EARTH
-	Orb* earth = new Orb(MyVector(1.496 * pow(10, 11), 0, 0), 5.976 * pow(10, 24), mDeltaTime, "Tellus", Color(BLUE), '3', true, MyVector(0, 0, 29800));
+	Orb* earth = new Orb(MyVector(1.496 * pow(10, 11), 0, 0), 5.976 * pow(10, 24), mDeltaTime, "Tellus", Color(BLUE), '3', true, MyVector(0, 0, 29800), false, sun);
 	mOrbs.push_back(earth); //v = 29800
 	//Moon
-	mOrbs.push_back(new Orb(MyVector(1.496 * pow(10, 11) + 3.78 * pow(10, 5), 0, 0), 7.342 * pow(10, 22), mDeltaTime, "Moon", Color(MAGENTA), 'm',true, MyVector(0, 0, 1022),true, earth)); //v=1022
+	mOrbs.push_back(new Orb(MyVector(1.496 * pow(10, 11) + 3.78 * pow(10, 5), 0, 0), 7.342 * pow(10, 22), mDeltaTime, "Moon", Color(MAGENTA), 'm', true, MyVector(0, 0, 1022), true, earth)); //v=1022
 
 	//MARS
-	mOrbs.push_back(new Orb(MyVector(2.279*pow(10, 11), 0, 0), 6.42*pow(10, 23), mDeltaTime, "Mars", Color(RED), '4', true, MyVector(0, 0, 24100)));
+	mOrbs.push_back(new Orb(MyVector(2.279*pow(10, 11), 0, 0), 6.42*pow(10, 23), mDeltaTime, "Mars", Color(RED), '4', true, MyVector(0, 0, 24100), false, sun));
 	//JUPITER
 	mOrbs.push_back(new Orb(MyVector(7.786 * pow(10, 11), 0, 0), 1.8986 * pow(10, 27), mDeltaTime, "Jupiter", Color(RED), '5', false, MyVector(0, 0, 131000)));
 	//SATURN
