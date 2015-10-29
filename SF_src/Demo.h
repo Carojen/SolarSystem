@@ -17,7 +17,7 @@ public:
 	virtual void update(DemoHandler*) = 0;
 	const virtual string getName()
 	{
-		return "Please name me!";
+		return "Solar System";
 	}
 	const virtual string getInfo()
 	{

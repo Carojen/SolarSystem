@@ -9,6 +9,7 @@ class SolarSystem: public Demo
 public:
 	SolarSystem();
 
+	void reset();
 	void update( DemoHandler* dh );
 	void draw( DemoHandler* draw );
 	void addForce( Orb* one, Orb* two );

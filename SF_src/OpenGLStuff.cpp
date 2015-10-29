@@ -198,10 +198,10 @@ void display()
 }
 void showHelp()
 {
-	DemoHandler::inst().addMessage("Press F1 (XY-plane) F2 (ZY-plane) F3 (ZX-plane) F4 (perspective) to change view");
-	DemoHandler::inst().addMessage("In perspective view, move the camera with arrow-keys (rotate,zoom in/out) and PG-UP/DOWN (height)");
-	DemoHandler::inst().addMessage("Right-click to get menu");
-	DemoHandler::inst().addMessage("\nPress HOME to print this text");
+	DemoHandler::inst().addMessage("1-9 toggles planets. (number) 0 toggles sun, m toggles moon.");
+	DemoHandler::inst().addMessage("P pauses and unpauses simulation. Change speed with +/-.");
+	DemoHandler::inst().addMessage("Press D for debug lines (blue: direction from previous position, red: direction of total force influence)");
+	DemoHandler::inst().addMessage("Press (letter) O while in debug mode to get output values in console.");
 }
 
 void timer(int timeout)
